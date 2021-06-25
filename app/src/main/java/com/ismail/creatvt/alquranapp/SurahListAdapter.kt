@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ismail.creatvt.alquranapp.data.DataItem
 import kotlinx.android.synthetic.main.surah_item_layout.view.*
 
-class SurahListAdapter(val surahList: List<DataItem?>): RecyclerView.Adapter<SurahListAdapter.SurahViewHolder>() {
+class SurahListAdapter(
+    val surahList: List<DataItem?>,
+    val listener: OnSurahClickListener
+): RecyclerView.Adapter<SurahListAdapter.SurahViewHolder>() {
 
     class SurahViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -23,6 +26,11 @@ class SurahListAdapter(val surahList: List<DataItem?>): RecyclerView.Adapter<Sur
 
     override fun onBindViewHolder(holder: SurahViewHolder, position: Int) {
         val surah = surahList[position]
+        holder.itemView.surah_card.setOnClickListener {
+            if(surah != null){
+                listener.onSurahClick(surah)
+            }
+        }
         holder.itemView.surah_name.text = surah?.name?.transliteration?.en
         holder.itemView.surah_number.text = surah?.number?.toString()
         holder.itemView.revelation.text = surah?.revelation?.en
